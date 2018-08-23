@@ -27,6 +27,9 @@ $('#thumb .images').mouseenter(() => { window.clearInterval(thumbID) })
 $('#thumb .images').mouseleave(() => { thumbID = intervalSlide('thumb') })
 
 
+window.onscroll = () => {
+  window.pageYOffset > 0 ? $('header').addClass('float') : $('header').removeClass('float')
+}
 
 /* 以下是自定义函数 */
 // 点击时的动画函数
