@@ -6,6 +6,7 @@
 }
 ul { list-style: none; }
 img { width: 100%; }
+a { color: #000000; }
 svg {
   width: 1em;
   height: 1em;
