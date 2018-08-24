@@ -1,34 +1,28 @@
-let loopID = intervalSlide('loop'), loopN = 0,
+let header = $('header'),
+  loopID = intervalSlide('loop'), loopN = 0,
   loopImgItems = $('#loop .images').find('img'),
   loopBtnItems = $('#loop .items').find('span'),
   thumbID = intervalSlide('thumb'), thumbN = 0,
-  thumbImgItems = $('#thumb .images').find('img'),
+  thumbImgContainer = $('#thumb .images'),
+  thumbBtnContainer = $('#thumbBtns'),
   thumbBtnItems = $('#thumbBtns').find('li')
 
 /* Loop模式 */
-// 上一张
 $('#prev').click(() => { clickSlide(loopN - 2, 'loop') })
-// 下一张
 $('#next').click(() => { clickSlide(loopN, 'loop') })
-// 圆点导航
-$(loopBtnItems).click((e) => { clickSlide($(e.target).index() - 1, 'loop') })
-
-// 鼠标悬停，轮播停止。仅在div.images上有效，当鼠标悬停在所有按钮上时轮播不受影响。
+loopBtnItems.click((e) => { clickSlide($(e.target).index() - 1, 'loop') })
 $('#loop .images').mouseenter(() => { window.clearInterval(loopID) })
 $('#loop .images').mouseleave(() => { loopID = intervalSlide('loop') })
 
 
 /* 缩略图模式 */
-// 缩略图导航
-$(thumbBtnItems).click((e) => { clickSlide($(e.target).index() - 1, 'thumb') })
-
-// 鼠标悬停，轮播停止。仅在div.images上有效，当鼠标悬停在所有按钮上时轮播不受影响。
+thumbBtnItems.click((e) => { clickSlide($(e.target).index() - 1, 'thumb') })
 $('#thumb .images').mouseenter(() => { window.clearInterval(thumbID) })
 $('#thumb .images').mouseleave(() => { thumbID = intervalSlide('thumb') })
 
 
 window.onscroll = () => {
-  window.pageYOffset > 0 ? $('header').addClass('float') : $('header').removeClass('float')
+  window.pageYOffset > 0 ? header.addClass('float') : header.removeClass('float')
 }
 
 /* 以下是自定义函数 */
@@ -65,9 +59,9 @@ function slide(type) {
     loopBtnItems.eq(which(loopN + 1)).addClass('active').siblings('.active').removeClass('active')
     loopN++
   } else {
-    $('#thumb .images').css({ transform: `translateX(${thumbN * -700}px)` })
-    $('#thumbBtns').css({ transform: `translateX(${thumbN * -36}px)` })
-    $('#thumbBtns li').eq(thumbN + 1).addClass('active').siblings().removeClass('active')
+    thumbImgContainer.css({ transform: `translateX(${thumbN * -700}px)` })
+    thumbBtnContainer.css({ transform: `translateX(${thumbN * -36}px)` })
+    thumbBtnItems.eq(thumbN + 1).addClass('active').siblings().removeClass('active')
     thumbN++
     if (thumbN > 1) {
       thumbN = -1
@@ -76,6 +70,6 @@ function slide(type) {
 }
 // 返回应该播放的第x张图
 function which(index) {
-  if (index < 0) { index += 3 }  //解决负数返回错误的值。-3 -2 -1 => 0 1 2
+  if (index < 0) { index += 3 }
   return index % 3
 }
