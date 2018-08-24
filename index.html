@@ -3,9 +3,24 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="style.css">
+  <script>
+    let link = document.createElement('link'), style = document.createElement('style')
+    link.rel = 'stylesheet'
+    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+      link.href = 'mobile.css'
+      height = window.innerWidth / 1.5
+      style.innerHTML = `
+      #loop .window {
+        height: ${height}px;
+      }`
+      document.head.appendChild(style)
+    } else {
+      link.href = 'style.css'
+    }
+    document.head.appendChild(link)
+  </script>
   <script src="//at.alicdn.com/t/font_803749_mam6ylngf2.js"></script>
   <title>Slides</title>
 </head>

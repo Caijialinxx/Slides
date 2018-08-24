@@ -3,6 +3,7 @@ let header = $('header'),
   loopImgItems = $('#loop .images').find('img'),
   loopBtnItems = $('#loop .items').find('span'),
   thumbID = intervalSlide('thumb'), thumbN = 0,
+  thumbWinWidth = $('.thumbSlides_wrapper')[0].offsetWidth,
   thumbImgContainer = $('#thumb .images'),
   thumbBtnContainer = $('#thumbBtns'),
   thumbBtnItems = $('#thumbBtns').find('li')
@@ -20,6 +21,13 @@ thumbBtnItems.click((e) => { clickSlide($(e.target).index() - 1, 'thumb') })
 $('#thumb .images').mouseenter(() => { window.clearInterval(thumbID) })
 $('#thumb .images').mouseleave(() => { thumbID = intervalSlide('thumb') })
 
+window.onresize = () => {
+  if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    let loopWindowHeight = window.innerWidth / 1.5
+    $('#loop .window').css({ height: loopWindowHeight })
+  }
+  thumbWinWidth = $('.thumbSlides_wrapper')[0].offsetWidth
+}
 
 window.onscroll = () => {
   window.pageYOffset > 0 ? header.addClass('float') : header.removeClass('float')
@@ -59,8 +67,8 @@ function slide(type) {
     loopBtnItems.eq(which(loopN + 1)).addClass('active').siblings('.active').removeClass('active')
     loopN++
   } else {
-    thumbImgContainer.css({ transform: `translateX(${thumbN * -700}px)` })
-    thumbBtnContainer.css({ transform: `translateX(${thumbN * -36}px)` })
+    thumbImgContainer.css({ transform: `translateX(${(thumbN + 1) * -thumbWinWidth}px)` })
+    thumbBtnContainer.css({ transform: `translateX(${thumbN * -2.5}rem)` })
     thumbBtnItems.eq(thumbN + 1).addClass('active').siblings().removeClass('active')
     thumbN++
     if (thumbN > 1) {
